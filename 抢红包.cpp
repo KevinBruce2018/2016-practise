@@ -3,7 +3,7 @@ using namespace std;
 
 typedef struct Person
 {
-    	int code;
+    int code;
 	int redbag = 0;
 	int money = 0;
 }person;
