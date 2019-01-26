@@ -16,8 +16,7 @@ int main(void)
     {
         for(int i = n-s.length();i > 0;i--)
             cout<<c;
-        for(int i = 0;i < s.length();i++)
-            cout<<s[i];
+        cout<<s;
     }
     cout<<endl;
     return 0;
