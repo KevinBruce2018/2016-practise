@@ -10,8 +10,7 @@ int main(void)
     getchar();//该死的回车必须要清理掉啊
     getline(cin,s);
     if(s.length()>=n)
-        for(int i = s.length()-n;i < s.length();i++)
-            cout<<s[i];
+            cout<<s.substr(s.length()-n,s.length());
     else
     {
         for(int i = n-s.length();i > 0;i--)
