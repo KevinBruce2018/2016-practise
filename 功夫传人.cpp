@@ -3,14 +3,11 @@
 using namespace std;
 double energy[100005]= {0};
 vector<int>parent(100005,0);
-double getEneygy(int i,double r)
+double getEnergy(int i,double r)
 {
-    if(energy[i]==0){
-            energy[i] = (1-r/100)*getEneygy(parent[i],r);
-        return energy[i];
-    }
-    else
-        return energy[i];
+    if(energy[i]==0)
+            energy[i] = (1-r/100)*getEnergy(parent[i],r);
+    return energy[i];
 }
 int main(void)
 {
@@ -39,13 +36,13 @@ int main(void)
             }
         }
     }
-
+    //为避免师傅没出现就被计算的情况，不能边读取边计算
     double sum = 0;
+    //为提升计算速度，将每次的中间结果都保存起来
+    //具体情况见getEnergy函数定义
     for(int i = 0;i < n;i++)
-    {
         if(flag[i]!=0)
-            sum += getEneygy(i,r)*flag[i];
-    }
+            sum += getEnergy(i,r)*flag[i];
     cout<<(int)sum<<endl;
     return 0;
 }
