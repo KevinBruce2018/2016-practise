@@ -7,7 +7,8 @@ int find(int v)
     int t = v;
     while(parent[t]!=-1)
         t = parent[t];
-    int i = v,j; 
+    int i = v,j;
+    //进行路径压缩 如果不压缩的话将会超时
     while(i!=t){
         j = parent[i];
         parent[i] = t;
