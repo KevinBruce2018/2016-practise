@@ -1,53 +1,49 @@
-#include<bits/stdc++.h>
+#include<iostream>
 using namespace std;
-typedef struct family
+typedef struct family{
+    int fid = -1;
+    int mid = -1;
+    string sex = "M";
+}family;
+family* f = new family[100000];
+bool check(int id1,int id2,int n)
 {
-	int dad = -1,mom = -1;
-	char sex = 'M';
-}fmy;
-fmy *f = new fmy[100000];
-
-bool ishandw(int n,int id1,int id2)
-{
-    //往上走了4代都没关系 或者某支的父母已不可考
-    if(n>4 || id1==-1 ||id2==-1)
+    //某个人的父亲或母亲无法考证或者超过代数了
+    if(id1==-1||id2==-1||n>4)
         return true;
-    //注意处理-1的情况
-    if((f[id1].dad!=-1&&f[id1].dad==f[id2].dad) || (f[id1].mom!=-1&&f[id1].mom==f[id2].mom))
+    if((f[id1].fid!=-1&&f[id1].fid==f[id2].fid)||(f[id1].mid!=-1&&f[id1].mid==f[id2].mid))
         return false;
-    return ishandw(n+1,f[id1].mom,f[id2].mom)&&ishandw(n+1,f[id1].dad,f[id2].dad)&&ishandw(n+1,f[id1].mom,f[id2].dad)&&ishandw(n+1,f[id1].dad,f[id2].mom);
-    
+    return check(f[id1].fid,f[id2].fid,n+1)&&check(f[id1].mid,f[id2].mid,n+1)&&check(f[id1].mid,f[id2].fid,n+1)&&check(f[id1].fid,f[id2].mid,n+1);
 }
-int main(void)
+int main()
 {
-	int n,m;
-	scanf("%d",&n);
-	
-	for(int i = 0;i < n;i++)
-	{
-		int id;
-        scanf("%d ",&id);
-        scanf("%c %d %d%*c",&f[id].sex,&f[id].dad,&f[id].mom);
-        //修改母亲性别  母亲不一定出现在输入数据里 要修改默认值
-        if(f[id].mom!=-1)
-            f[f[id].mom].sex = 'F';
-	}
-    scanf("%d",&m);
-    for(int i = 0;i < m;i++)
+    int n,k;
+    cin>>n;
+    for(int i = 0;i < n;i++)
+    {
+        int id,fid,mid;
+        string sex;
+        cin>>id>>sex>>fid>>mid;
+        f[id].sex = sex;
+        f[id].fid = fid;
+        f[id].mid = mid;
+        //注意修改母亲的性别，因为默认值是男性
+        if(f[id].mid!=-1)
+            f[f[id].mid].sex = "F";
+    }
+    cin>>k;
+    for (int i = 0; i < k; i++)
     {
         int id1,id2;
-        scanf("%d %d",&id1,&id2);
-        if(f[id1].sex == f[id2].sex)
-            printf("Never Mind\n");
+        cin>>id1>>id2;
+        if(f[id1].sex==f[id2].sex)
+            cout<<"Never Mind"<<endl;
         else
         {
-            bool flag = ishandw(1,id1,id2);
-            if(flag)
-                printf("Yes\n");
-            else
-                printf("No\n");
-        }
-        
+            bool flag =  check(id1,id2,1);
+            if(flag) cout<<"Yes\n";
+            else    cout<<"No\n";
+        }   
     }
-	return 0;
+    return 0;
 }
